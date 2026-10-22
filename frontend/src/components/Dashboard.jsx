@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api';
 
-const STATUS_COLORS = {
-  Open: '#fbbf24',
-  'In Progress': '#60a5fa',
-  Resolved: '#4ade80',
+// Status pills: marigold for open, aubergine for in progress, muted for resolved
+const STATUS_STYLES = {
+  Open: { color: '#3A0F34', background: 'rgba(234, 170, 0, 0.25)' },
+  'In Progress': { color: '#3A0F34', background: 'rgba(58, 15, 52, 0.12)' },
+  Resolved: { color: 'rgba(58, 15, 52, 0.6)', background: 'rgba(58, 15, 52, 0.06)' },
 };
 
 function Dashboard() {
@@ -41,11 +42,12 @@ function Dashboard() {
     year: 'numeric',
   });
 
+  // Stat accents: aubergine for most, marigold only on the one that needs attention
   const stats = [
-    { label: 'Residents', value: residents.length, accent: '#818cf8' },
-    { label: 'Apartments', value: apartments.length, accent: '#38bdf8' },
-    { label: 'Open Complaints', value: openComplaints.length, accent: '#fbbf24' },
-    { label: 'Pending Payments', value: pendingPayments.length, accent: '#f472b6' },
+    { label: 'Residents', value: residents.length, accent: '#3A0F34' },
+    { label: 'Apartments', value: apartments.length, accent: '#3A0F34' },
+    { label: 'Open Complaints', value: openComplaints.length, accent: '#EAAA00' },
+    { label: 'Pending Payments', value: pendingPayments.length, accent: '#3A0F34' },
   ];
 
   const recentComplaints = [...complaints].reverse().slice(0, 6);
@@ -81,17 +83,14 @@ function Dashboard() {
           <div className="card-title">Recent complaints</div>
           {recentComplaints.length === 0 && <p className="empty">No complaints yet</p>}
           {recentComplaints.map((c) => {
-            const color = STATUS_COLORS[c.complaint_status] || '#9ca3af';
+            const style = STATUS_STYLES[c.complaint_status] || STATUS_STYLES.Resolved;
             return (
               <div className="row" key={c.complaint_id}>
                 <div>
                   <div className="row-title">{c.complaint_type}</div>
                   <div className="row-sub">{residentName(c.resident_id)} · {c.description}</div>
                 </div>
-                <span
-                  className="pill"
-                  style={{ color, background: `${color}1a` }}
-                >
+                <span className="pill" style={style}>
                   {c.complaint_status}
                 </span>
               </div>

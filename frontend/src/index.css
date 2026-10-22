@@ -1,3 +1,10 @@
+/*
+  Palette
+  Ice silver  #DDE3E8  (base, most used)
+  Aubergine   #3A0F34  (sidebar, text, buttons)
+  Marigold    #EAAA00  (accents only)
+*/
+
 * {
   box-sizing: border-box;
 }
@@ -5,8 +12,8 @@
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  background: #0f1115;
-  color: #e5e7eb;
+  background: #DDE3E8;
+  color: #3A0F34;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -18,8 +25,7 @@ body {
 
 .sidebar {
   width: 220px;
-  background: #15181e;
-  border-right: 1px solid #22262e;
+  background: #3A0F34;
   padding: 24px 12px;
   position: sticky;
   top: 0;
@@ -30,8 +36,9 @@ body {
 .brand {
   font-size: 0.95em;
   font-weight: 600;
-  color: #f3f4f6;
+  color: #DDE3E8;
   padding: 4px 12px 20px;
+  letter-spacing: 0.01em;
 }
 
 .nav-item {
@@ -42,7 +49,7 @@ body {
   border: none;
   border-radius: 6px;
   background: transparent;
-  color: #9ca3af;
+  color: rgba(221, 227, 232, 0.6);
   font-size: 0.9em;
   text-align: left;
   cursor: pointer;
@@ -50,15 +57,15 @@ body {
 }
 
 .nav-item:hover {
-  background: #1d2129;
-  color: #e5e7eb;
+  background: rgba(221, 227, 232, 0.08);
+  color: #DDE3E8;
 }
 
 .nav-item.active {
-  background: #1d2129;
-  color: #f3f4f6;
+  background: rgba(221, 227, 232, 0.12);
+  color: #DDE3E8;
   font-weight: 500;
-  box-shadow: inset 2px 0 0 #818cf8;
+  box-shadow: inset 2px 0 0 #EAAA00;
 }
 
 .main {
@@ -72,20 +79,20 @@ body {
   margin: 0 0 6px;
   font-size: 1.5em;
   font-weight: 600;
-  color: #f3f4f6;
+  color: #3A0F34;
   letter-spacing: -0.01em;
 }
 
 .subtitle {
   margin: 0 0 28px;
-  color: #6b7280;
+  color: rgba(58, 15, 52, 0.6);
   font-size: 0.85em;
 }
 
 .main h2 {
   font-size: 0.8em;
   font-weight: 600;
-  color: #6b7280;
+  color: rgba(58, 15, 52, 0.6);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin: 32px 0 12px;
@@ -93,8 +100,8 @@ body {
 
 /* ===== FORMS ===== */
 .main form {
-  background: #15181e;
-  border: 1px solid #22262e;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(58, 15, 52, 0.12);
   padding: 16px;
   border-radius: 8px;
   display: flex;
@@ -106,75 +113,75 @@ body {
 .main input,
 .main select {
   padding: 9px 11px;
-  border: 1px solid #2a2f38;
+  border: 1px solid rgba(58, 15, 52, 0.2);
   border-radius: 6px;
   font-size: 0.9em;
-  background: #0f1115;
-  color: #e5e7eb;
+  background: rgba(255, 255, 255, 0.7);
+  color: #3A0F34;
   min-width: 160px;
   font-family: inherit;
 }
 
 .main input::placeholder {
-  color: #4b5563;
+  color: rgba(58, 15, 52, 0.4);
 }
 
 .main input:focus,
 .main select:focus {
   outline: none;
-  border-color: #4b5563;
+  border-color: #3A0F34;
+  box-shadow: 0 0 0 3px rgba(234, 170, 0, 0.35);
 }
 
 /* ===== BUTTONS ===== */
 .main button {
   padding: 9px 16px;
-  border: 1px solid #2a2f38;
+  border: 1px solid #3A0F34;
   border-radius: 6px;
-  background: #e5e7eb;
-  color: #0f1115;
+  background: #3A0F34;
+  color: #DDE3E8;
   font-size: 0.875em;
   font-weight: 500;
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.15s;
+  transition: opacity 0.15s, background 0.15s, color 0.15s;
 }
 
 .main button:hover {
-  background: #d1d5db;
+  opacity: 0.85;
 }
 
+/* Cancel button inside forms */
 .main form button[type="button"] {
   background: transparent;
-  color: #9ca3af;
+  color: #3A0F34;
 }
 
 .main form button[type="button"]:hover {
-  background: #1d2129;
-  color: #e5e7eb;
+  background: rgba(58, 15, 52, 0.08);
+  opacity: 1;
 }
 
+/* Edit / Delete buttons inside tables */
 .main table button {
   padding: 5px 10px;
   font-size: 0.8em;
   margin: 2px;
   background: transparent;
-  color: #9ca3af;
-  border: 1px solid #2a2f38;
+  color: #3A0F34;
+  border: 1px solid rgba(58, 15, 52, 0.3);
 }
 
 .main table button:hover {
-  background: #1d2129;
-  color: #e5e7eb;
+  background: rgba(58, 15, 52, 0.08);
+  opacity: 1;
 }
 
-.main table button:last-child {
-  color: #f87171;
-  border-color: #3b2326;
-}
-
+/* Delete button: marigold on hover */
 .main table button:last-child:hover {
-  background: #2a1517;
-  color: #fca5a5;
+  background: #EAAA00;
+  border-color: #EAAA00;
+  color: #3A0F34;
 }
 
 /* ===== TABLES ===== */
@@ -182,33 +189,33 @@ body {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  background: #15181e;
-  border: 1px solid #22262e;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(58, 15, 52, 0.12);
   border-radius: 8px;
   overflow: hidden;
 }
 
 .main th {
-  background: #15181e;
-  color: #6b7280;
+  background: rgba(58, 15, 52, 0.04);
+  color: rgba(58, 15, 52, 0.6);
   font-size: 0.75em;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   padding: 12px 16px;
   text-align: left;
-  border-bottom: 1px solid #22262e;
+  border-bottom: 1px solid rgba(58, 15, 52, 0.12);
 }
 
 .main td {
   padding: 12px 16px;
-  border-bottom: 1px solid #1d2129;
+  border-bottom: 1px solid rgba(58, 15, 52, 0.08);
   font-size: 0.9em;
-  color: #d1d5db;
+  color: #3A0F34;
 }
 
 .main tbody tr:hover {
-  background: #1a1d24;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .main tbody tr:last-child td {
@@ -216,7 +223,7 @@ body {
 }
 
 .main p {
-  color: #9ca3af;
+  color: rgba(58, 15, 52, 0.7);
   font-size: 0.875em;
   margin: 12px 0;
 }
@@ -232,8 +239,8 @@ body {
 .stat-card {
   position: relative;
   overflow: hidden;
-  background: #15181e;
-  border: 1px solid #22262e;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(58, 15, 52, 0.12);
   border-radius: 8px;
   padding: 20px;
 }
@@ -251,20 +258,20 @@ body {
 .stat-value {
   font-size: 2em;
   font-weight: 600;
-  color: #f3f4f6;
+  color: #3A0F34;
   letter-spacing: -0.02em;
   line-height: 1;
 }
 
 .stat-label {
-  color: #6b7280;
+  color: rgba(58, 15, 52, 0.6);
   font-size: 0.8em;
   margin-top: 8px;
 }
 
 .card {
-  background: #15181e;
-  border: 1px solid #22262e;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(58, 15, 52, 0.12);
   border-radius: 8px;
   padding: 18px 20px;
   margin-bottom: 12px;
@@ -273,7 +280,7 @@ body {
 .card-title {
   font-size: 0.75em;
   font-weight: 600;
-  color: #6b7280;
+  color: rgba(58, 15, 52, 0.6);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-bottom: 14px;
@@ -292,20 +299,20 @@ body {
 .progress-track {
   flex: 1;
   height: 6px;
-  background: #1d2129;
+  background: rgba(58, 15, 52, 0.12);
   border-radius: 999px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: #818cf8;
+  background: #EAAA00;
   border-radius: 999px;
   transition: width 0.4s ease;
 }
 
 .progress-text {
-  color: #9ca3af;
+  color: rgba(58, 15, 52, 0.7);
   font-size: 0.85em;
   white-space: nowrap;
 }
@@ -322,7 +329,7 @@ body {
   align-items: center;
   gap: 12px;
   padding: 12px 0;
-  border-bottom: 1px solid #1d2129;
+  border-bottom: 1px solid rgba(58, 15, 52, 0.08);
 }
 
 .row:last-child {
@@ -330,19 +337,19 @@ body {
 }
 
 .row-title {
-  color: #e5e7eb;
+  color: #3A0F34;
   font-size: 0.9em;
   font-weight: 500;
 }
 
 .row-sub {
-  color: #6b7280;
+  color: rgba(58, 15, 52, 0.6);
   font-size: 0.8em;
   margin-top: 3px;
 }
 
 .row-date {
-  color: #6b7280;
+  color: rgba(58, 15, 52, 0.6);
   font-size: 0.8em;
   white-space: nowrap;
 }
@@ -356,7 +363,7 @@ body {
 }
 
 .empty {
-  color: #4b5563;
+  color: rgba(58, 15, 52, 0.4);
   font-size: 0.85em;
 }
 
@@ -370,11 +377,186 @@ body {
     width: 100%;
     height: auto;
     position: static;
-    border-right: none;
-    border-bottom: 1px solid #22262e;
   }
 
   .main {
     padding: 20px;
+  }
+}
+/* ===== SIDEBAR BRAND (bigger) ===== */
+.brand {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #DDE3E8;
+  padding: 4px 12px 24px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+/* ===== SIDEBAR COLLAPSE ===== */
+.sidebar {
+  width: 220px;
+  padding: 24px 12px;
+  overflow: hidden;
+  transition: width 0.25s ease, padding 0.25s ease;
+}
+
+.sidebar.collapsed {
+  width: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.sidebar nav {
+  white-space: nowrap;
+}
+
+/* ===== HEADER ROW WITH TOGGLE ===== */
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+
+.main .menu-toggle {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid rgba(58, 15, 52, 0.25);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.main .menu-toggle:hover {
+  background: rgba(58, 15, 52, 0.08);
+  opacity: 1;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: #3A0F34;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+/* Bars morph into an X while the sidebar is open */
+.menu-toggle.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Mobile: sidebar stacks on top, so collapse it vertically */
+@media (max-width: 800px) {
+  .sidebar.collapsed {
+    width: 100%;
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+/* ===== MINI SIDEBAR ===== */
+.sidebar {
+  width: 240px;
+  padding: 24px 12px;
+  overflow: hidden;
+  transition: width 0.25s ease, padding 0.25s ease;
+}
+
+.sidebar.collapsed {
+  width: 68px;
+  padding: 24px 8px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 12px 24px;
+  font-size: 1.35em;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #DDE3E8;
+  letter-spacing: -0.01em;
+  white-space: normal;
+}
+
+.brand-mark {
+  display: none;
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed .brand {
+  justify-content: center;
+  padding: 4px 0 24px;
+}
+
+.sidebar.collapsed .brand-text {
+  display: none;
+}
+
+.sidebar.collapsed .brand-mark {
+  display: block;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.nav-icon {
+  flex-shrink: 0;
+  display: block;
+}
+
+.nav-item.active {
+  box-shadow: inset 2px 0 0 #EAAA00;
+}
+
+.sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 10px 0;
+  gap: 0;
+}
+
+.sidebar.collapsed .nav-label {
+  display: none;
+}
+
+/* Mobile: sidebar stacks on top, so keep it as a full-width strip */
+@media (max-width: 800px) {
+  .sidebar,
+  .sidebar.collapsed {
+    width: 100%;
+    height: auto;
+    padding: 16px 12px;
+  }
+
+  .sidebar.collapsed .nav-item {
+    justify-content: flex-start;
+    padding: 9px 12px;
+    gap: 12px;
+  }
+
+  .sidebar.collapsed .nav-label {
+    display: inline;
   }
 }
