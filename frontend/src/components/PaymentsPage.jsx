@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api';
+import Receipt from './Receipt';
 
 const emptyForm = {
   resident_id: '',
@@ -16,6 +17,7 @@ function PaymentsPage() {
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState(null);
   const [message, setMessage] = useState('');
+  const [receiptId, setReceiptId] = useState(null);
 
   const loadPayments = () => {
     api.getPayments().then(setPayments).catch(() => setMessage('Could not load payments'));
@@ -49,9 +51,11 @@ function PaymentsPage() {
       if (editingId) {
         await api.updatePayment(editingId, payload);
         setMessage('Payment updated!');
+        if (payload.payment_status === 'Completed') setReceiptId(editingId);
       } else {
-        await api.createPayment(payload);
+        const created = await api.createPayment(payload);
         setMessage('Payment added!');
+        if (payload.payment_status === 'Completed') setReceiptId(created.payment_id);
       }
       resetForm();
       loadPayments();
@@ -76,6 +80,7 @@ function PaymentsPage() {
     try {
       await api.deletePayment(id);
       setMessage('Payment deleted!');
+      if (receiptId === id) setReceiptId(null);
       loadPayments();
     } catch {
       setMessage('Could not delete payment');
@@ -94,6 +99,8 @@ function PaymentsPage() {
 
   return (
     <div>
+      <Receipt paymentId={receiptId} onClose={() => setReceiptId(null)} />
+
       <h2>{editingId ? 'Edit Payment' : 'Add Payment'}</h2>
 
       <form onSubmit={handleSubmit} style={{ marginBottom: 20 }}>
@@ -147,6 +154,11 @@ function PaymentsPage() {
               <td>{p.payment_status}</td>
               <td>
                 <button onClick={() => handleEdit(p)}>Edit</button>{' '}
+                {p.payment_status === 'Completed' && (
+                  <>
+                    <button onClick={() => setReceiptId(p.payment_id)}>Receipt</button>{' '}
+                  </>
+                )}
                 <button onClick={() => handleDelete(p.payment_id)}>Delete</button>
               </td>
             </tr>

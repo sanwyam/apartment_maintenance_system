@@ -363,7 +363,36 @@ app.delete('/api/notices/:id', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+// ========== RECEIPT ROUTE ==========
 
+app.get('/api/payments/:id/receipt', async (req, res) => {
+    try {
+        const result = await pool.query(
+            `SELECT p.payment_id, p.payment_date, p.payment_mode, p.payment_status,
+                    r.resident_name, r.resident_email, r.resident_number,
+                    a.flat_number, a.block_number, a.floor_number,
+                    b.bill_month, b.due_date, b.bill_amount
+             FROM payment p
+             JOIN resident r ON r.resident_id = p.resident_id
+             JOIN maintenance_bill b ON b.bill_id = p.bill_id
+             JOIN apartment a ON a.apartment_id = b.apartment_id
+             WHERE p.payment_id = $1`,
+            [req.params.id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Payment not found' });
+        }
+
+        if (result.rows[0].payment_status !== 'Completed') {
+            return res.status(400).json({ error: 'Receipts are only available for completed payments' });
+        }
+
+        res.json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
