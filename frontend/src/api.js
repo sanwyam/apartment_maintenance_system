@@ -48,4 +48,11 @@ export const api = {
   createNotice: (data) => request('/notices', { method: 'POST', body: JSON.stringify(data) }),
   updateNotice: (id, data) => request(`/notices/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteNotice: (id) => request(`/notices/${id}`, { method: 'DELETE' }),
+
+    // Resident portal
+  getResidentApartments: (id) => request(`/resident-apartments/${id}`),
+  getBillsForApartment: (id) => request(`/bills/apartment/${id}`),
+  getPaymentsForResident: (id) => request(`/payments/resident/${id}`),
+  getComplaintsForResident: (id) => request(`/complaints/resident/${id}`),
+  getNoticesForResident: (id) => request(`/notices/resident/${id}`),
 };

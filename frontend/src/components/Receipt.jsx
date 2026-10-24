@@ -43,7 +43,7 @@ function Receipt({ paymentId, onClose }) {
           <div className="card-title">Payment receipt</div>
           <div className="receipt-no">{receiptNo}</div>
         </div>
-        <span className="pill" style={{ color: '#3A0F34', background: 'rgba(234, 170, 0, 0.25)' }}>
+        <span className="pill pill-paid">
           Paid
         </span>
       </div>

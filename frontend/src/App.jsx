@@ -1,4 +1,16 @@
 import { useState } from 'react';
+import {
+  LayoutDashboard,
+  Users,
+  Building2,
+  Receipt,
+  AlertTriangle,
+  CreditCard,
+  Bell,
+  Menu,
+  X,
+  UserRound,
+} from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import ResidentsPage from './components/ResidentsPage';
 import ApartmentsPage from './components/ApartmentsPage';
@@ -6,133 +18,84 @@ import BillsPage from './components/BillsPage';
 import ComplaintsPage from './components/ComplaintsPage';
 import PaymentsPage from './components/PaymentsPage';
 import NoticesPage from './components/NoticesPage';
-
-// Minimal stroke icons, 18px, inherit color from the button
-const Icon = ({ children }) => (
-  <svg
-    className="nav-icon"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    {children}
-  </svg>
-);
-
-const icons = {
-  dashboard: (
-    <Icon>
-      <rect x="3" y="3" width="7" height="7" rx="1.5" />
-      <rect x="14" y="3" width="7" height="7" rx="1.5" />
-      <rect x="3" y="14" width="7" height="7" rx="1.5" />
-      <rect x="14" y="14" width="7" height="7" rx="1.5" />
-    </Icon>
-  ),
-  residents: (
-    <Icon>
-      <circle cx="12" cy="8" r="4" />
-      <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" />
-    </Icon>
-  ),
-  apartments: (
-    <Icon>
-      <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />
-    </Icon>
-  ),
-  bills: (
-    <Icon>
-      <path d="M6 3h12v18l-3-2-3 2-3-2-3 2z" />
-      <path d="M9 8h6M9 12h6" />
-    </Icon>
-  ),
-  complaints: (
-    <Icon>
-      <path d="M12 3l10 18H2z" />
-      <path d="M12 10v4M12 17.5v.5" />
-    </Icon>
-  ),
-  payments: (
-    <Icon>
-      <rect x="2" y="5" width="20" height="14" rx="2" />
-      <path d="M2 10h20" />
-    </Icon>
-  ),
-  notices: (
-    <Icon>
-      <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
-      <path d="M13.7 21a2 2 0 0 1-3.4 0" />
-    </Icon>
-  ),
-};
+import ResidentPortal, { ResidentLogin } from './components/ResidentPortal';
 
 const pages = {
-  dashboard: { label: 'Dashboard', Component: Dashboard },
-  residents: { label: 'Residents', Component: ResidentsPage },
-  apartments: { label: 'Apartments', Component: ApartmentsPage },
-  bills: { label: 'Bills', Component: BillsPage },
-  complaints: { label: 'Complaints', Component: ComplaintsPage },
-  payments: { label: 'Payments', Component: PaymentsPage },
-  notices: { label: 'Notices', Component: NoticesPage },
+  dashboard: { label: 'Dashboard', icon: LayoutDashboard, Component: Dashboard },
+  residents: { label: 'Residents', icon: Users, Component: ResidentsPage },
+  apartments: { label: 'Apartments', icon: Building2, Component: ApartmentsPage },
+  bills: { label: 'Bills', icon: Receipt, Component: BillsPage },
+  complaints: { label: 'Complaints', icon: AlertTriangle, Component: ComplaintsPage },
+  payments: { label: 'Payments', icon: CreditCard, Component: PaymentsPage },
+  notices: { label: 'Notices', icon: Bell, Component: NoticesPage },
 };
 
 function App() {
+  const [mode, setMode] = useState('admin');
+  const [portalUser, setPortalUser] = useState(null);
   const [current, setCurrent] = useState('dashboard');
   const [collapsed, setCollapsed] = useState(false);
+
+  if (mode === 'resident') {
+    if (!portalUser) {
+      return <ResidentLogin onPick={setPortalUser} onBack={() => setMode('admin')} />;
+    }
+    return (
+      <ResidentPortal
+        resident={portalUser}
+        onLogout={() => {
+          setPortalUser(null);
+          setMode('admin');
+        }}
+      />
+    );
+  }
+
   const { label, Component } = pages[current];
 
   return (
     <div className="app">
       <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
         <div className="brand">
-          <span className="brand-text">Apartment Maintenance</span>
-          <svg
-            className="brand-mark"
-            width="26"
-            height="26"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#EAAA00"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-label="Apartment Maintenance"
-          >
-            <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />
-          </svg>
+          <span className="brand-mark">
+            <Building2 size={24} strokeWidth={1.75} />
+          </span>
+          <span className="brand-text">Dwella</span>
         </div>
+
         <nav>
-          {Object.entries(pages).map(([key, page]) => (
-            <button
-              key={key}
-              title={page.label}
-              className={`nav-item ${current === key ? 'active' : ''}`}
-              onClick={() => setCurrent(key)}
-            >
-              {icons[key]}
-              <span className="nav-label">{page.label}</span>
-            </button>
-          ))}
+          {Object.entries(pages).map(([key, page]) => {
+            const Icon = page.icon;
+            return (
+              <button
+                key={key}
+                title={page.label}
+                className={`nav-item ${current === key ? 'active' : ''}`}
+                onClick={() => setCurrent(key)}
+              >
+                <Icon size={18} strokeWidth={1.75} className="nav-icon" />
+                <span className="nav-label">{page.label}</span>
+              </button>
+            );
+          })}
         </nav>
+
+        <button className="nav-item" onClick={() => setMode('resident')} style={{ marginTop: 16 }}>
+          <UserRound size={18} strokeWidth={1.75} className="nav-icon" />
+          <span className="nav-label">Resident portal</span>
+        </button>
       </aside>
 
       <main className="main">
         <div className="page-header">
-          <div className="header-row">
+          <div className="page-header-row">
             <button
-              className={`menu-toggle ${collapsed ? '' : 'open'}`}
+              className="icon-btn"
               onClick={() => setCollapsed(!collapsed)}
-              aria-label="Toggle sidebar"
+              aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               aria-expanded={!collapsed}
             >
-              <span />
-              <span />
-              <span />
+              {collapsed ? <Menu size={18} /> : <X size={18} />}
             </button>
             <h1>{label}</h1>
           </div>

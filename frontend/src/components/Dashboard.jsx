@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api';
 
-// Status pills: marigold for open, aubergine for in progress, muted for resolved
-const STATUS_STYLES = {
-  Open: { color: '#3A0F34', background: 'rgba(234, 170, 0, 0.25)' },
-  'In Progress': { color: '#3A0F34', background: 'rgba(58, 15, 52, 0.12)' },
-  Resolved: { color: 'rgba(58, 15, 52, 0.6)', background: 'rgba(58, 15, 52, 0.06)' },
+const STATUS_CLASS = {
+  Open: 'pill-open',
+  'In Progress': 'pill-progress',
+  Resolved: 'pill-resolved',
 };
 
 function Dashboard() {
@@ -42,12 +41,11 @@ function Dashboard() {
     year: 'numeric',
   });
 
-  // Stat accents: aubergine for most, marigold only on the one that needs attention
   const stats = [
-    { label: 'Residents', value: residents.length, accent: '#3A0F34' },
-    { label: 'Apartments', value: apartments.length, accent: '#3A0F34' },
-    { label: 'Open Complaints', value: openComplaints.length, accent: '#EAAA00' },
-    { label: 'Pending Payments', value: pendingPayments.length, accent: '#3A0F34' },
+    { label: 'Residents', value: residents.length, attention: false },
+    { label: 'Apartments', value: apartments.length, attention: false },
+    { label: 'Open Complaints', value: openComplaints.length, attention: openComplaints.length > 0 },
+    { label: 'Pending Payments', value: pendingPayments.length, attention: false },
   ];
 
   const recentComplaints = [...complaints].reverse().slice(0, 6);
@@ -59,7 +57,7 @@ function Dashboard() {
 
       <div className="stats">
         {stats.map((s) => (
-          <div className="stat-card" key={s.label} style={{ '--accent': s.accent }}>
+          <div className={`stat-card ${s.attention ? 'attention' : ''}`} key={s.label}>
             <div className="stat-value">{s.value}</div>
             <div className="stat-label">{s.label}</div>
           </div>
@@ -82,20 +80,17 @@ function Dashboard() {
         <div className="card">
           <div className="card-title">Recent complaints</div>
           {recentComplaints.length === 0 && <p className="empty">No complaints yet</p>}
-          {recentComplaints.map((c) => {
-            const style = STATUS_STYLES[c.complaint_status] || STATUS_STYLES.Resolved;
-            return (
-              <div className="row" key={c.complaint_id}>
-                <div>
-                  <div className="row-title">{c.complaint_type}</div>
-                  <div className="row-sub">{residentName(c.resident_id)} · {c.description}</div>
-                </div>
-                <span className="pill" style={style}>
-                  {c.complaint_status}
-                </span>
+          {recentComplaints.map((c) => (
+            <div className="row" key={c.complaint_id}>
+              <div>
+                <div className="row-title">{c.complaint_type}</div>
+                <div className="row-sub">{residentName(c.resident_id)} · {c.description}</div>
               </div>
-            );
-          })}
+              <span className={`pill ${STATUS_CLASS[c.complaint_status] || 'pill-resolved'}`}>
+                {c.complaint_status}
+              </span>
+            </div>
+          ))}
         </div>
 
         <div className="card">

@@ -393,6 +393,21 @@ app.get('/api/payments/:id/receipt', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+// ========== RESIDENT'S APARTMENT (lives_in) ==========
+
+app.get('/api/resident-apartments/:resident_id', async (req, res) => {
+    try {
+        const result = await pool.query(
+            `SELECT a.* FROM apartment a
+             JOIN lives_in li ON a.apartment_id = li.apartment_id
+             WHERE li.resident_id = $1`,
+            [req.params.resident_id]
+        );
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
